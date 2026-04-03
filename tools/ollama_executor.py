@@ -5,30 +5,44 @@ def run_ollama(model, prompt, endpoint):
     """
     Sends a prompt to an Ollama model running on a remote machine
     and returns the generated text response.
+    Handles streaming output correctly.
     """
 
     payload = {
         "model": model,
-        "prompt": prompt
+        "prompt": prompt,
+        "stream": True
     }
 
     response = requests.post(
         f"{endpoint}/api/generate",
         json=payload,
+        stream=True,
         timeout=120
     )
 
     response.raise_for_status()
-    data = response.json()
 
-    # Ollama returns streaming chunks unless "stream": false is set.
-    # If your model returns chunks, concatenate them here.
-    if isinstance(data, dict) and "response" in data:
-        return data["response"]
+    full_text = ""
 
-    # If streaming mode is enabled, Ollama returns a list of chunks.
-    if isinstance(data, list):
-        return "".join(chunk.get("response", "") for chunk in data)
+    # Ollama streams JSON objects line-by-line
+    for line in response.iter_lines():
+        if not line:
+            continue
 
-    return ""
+        try:
+            chunk = json.loads(line.decode("utf-8"))
+        except json.JSONDecodeError:
+            # If Ollama ever emits raw text, append it safely
+            full_text += line.decode("utf-8")
+            continue
 
+        # Append any text in the "response" field
+        if "response" in chunk:
+            full_text += chunk["response"]
+
+        # Stop when Ollama signals completion
+        if chunk.get("done"):
+            break
+
+    return full_text.strip()
