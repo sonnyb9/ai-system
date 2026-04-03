@@ -1,0 +1,25 @@
+{
+  "schema_metadata": {
+    "name": "task-classification",
+    "version": "1.0.0",
+    "last_updated": "2026-04-01",
+    "description": "Defines task categories and routing rules",
+    "owner": "agent-controller",
+    "validation": {
+      "required_top_level_keys": ["TaskSchema"],
+      "required_fields_by_object": {
+        "TaskSchema": ["task_id", "category", "description", "tools_allowed"]
+      }
+    }
+  },
+  "data": {
+    "TaskSchema": [
+      {
+        "task_id": "update_system",
+        "category": "maintenance",
+        "description": "Run system updates",
+        "tools_allowed": ["selfhosted-lightweight-model", "ollama"]
+      }
+    ]
+  }
+}

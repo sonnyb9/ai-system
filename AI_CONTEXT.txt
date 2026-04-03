@@ -1,0 +1,81 @@
+PROJECT: OpenClaw + Ollama + Aurora R16 Local Agent Integration
+USER: Sonny
+DATE: Context up to April 1, 2026
+
+GOAL:
+Enable a local tool-capable agent (Qwen2.5-Coder-32B) running on an Aurora R16 to appear in OpenClaw’s UI and support tool execution, maintenance tasks, and structured workflows.
+
+CURRENT ENVIRONMENT:
+- OpenClaw running on Raspberry Pi 5.
+- Ollama running on Aurora R16 at: http://192.168.5.150:11434
+- Qwen2.5-Coder-32B successfully pulled on Aurora.
+- Anthropic models (Claude Sonnet 4.5, Opus) load correctly.
+- Qwen32B agent block loads successfully.
+- Config hot-reloads without schema errors.
+
+WHAT WORKS:
+- Agent block for qwen32b is valid.
+- Tools profile is valid.
+- Ollama server is reachable.
+- Model is present in Ollama.
+- Gateway reloads cleanly.
+
+WHAT DOES NOT WORK:
+- Qwen2.5-Coder-32B does NOT appear in:
+  - openclaw models list
+  - OpenClaw UI model dropdown
+
+ROOT CAUSE (LIKELY):
+The "models" provider block is not being parsed by OpenClaw due to JSON structure issues:
+- The "models" block was placed after an extra closing brace.
+- This caused it to be outside the root object.
+- OpenClaw silently ignores invalid or out-of-place provider blocks.
+- As a result, only Anthropic models appear.
+
+EXPECTED STRUCTURE:
+The root JSON object must contain both:
+- "agents"
+- "models"
+
+They must be siblings at the same level.
+
+Correct high-level structure:
+
+{
+  "agents": { ... },
+  "models": {
+    "providers": {
+      "ollama": {
+        "baseUrl": "http://192.168.5.150:11434/v1",
+        "apiKey": "ollama-remote",
+        "api": "openai-responses",
+        "models": [
+          { "id": "qwen2.5-coder:32b", "name": "Qwen2.5 Coder 32B" }
+        ]
+      }
+    }
+  }
+}
+
+NEXT STEPS:
+1. Inspect openclaw.json for stray braces before or after the "models" block.
+2. Ensure "models" is inside the root object, not after an extra "}".
+3. Ensure there is a comma between the "agents" block and the "models" block.
+4. Restart gateway:
+   openclaw gateway stop
+   kill -9 $(pgrep openclaw-gateway)
+   rm -f /tmp/openclaw/gateway.lock
+   openclaw gateway
+5. Run:
+   openclaw models list
+   → Qwen2.5-Coder-32B should appear.
+6. Switch to qwen32b agent in UI and confirm model dropdown updates.
+
+NOTES:
+- The agent block is correct.
+- The provider block content is correct.
+- The only remaining issue is JSON structure placement.
+- Once fixed, the local model will appear and tools will work.
+
+END OF FILE
+

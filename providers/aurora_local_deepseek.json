@@ -1,0 +1,15 @@
+{
+  "provider_name": "aurora_local_deepseek",
+  "type": "ollama",
+  "endpoint": "http://AuroraR16:11434",
+  "model": "deepseek-coder-v2:16b",
+  "capabilities": {
+    "text": true,
+    "tools": false,
+    "vision": false,
+    "web_search": false
+  },
+  "timeout_seconds": 120,
+  "max_tokens": 4096
+}
+

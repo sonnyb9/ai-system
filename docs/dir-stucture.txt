@@ -1,0 +1,41 @@
+/ai-system/
+├── schemas/                   # All machine-consumable schema JSON files
+│   ├── task-classification.json
+│   ├── tool-interface.json
+│   ├── agent-controller.json
+│   └── system-architecture.json
+│
+├── docs/                      # System specifications, design docs, explanations
+│   ├── schema_loader.md       # Loader specification (parsing/loading logic)
+│   ├── agent_design.md        # Optional higher-level design notes
+│   └── system_notes.md        # Operational or design notes
+│
+├── agents/                    # Agent logic / orchestrator code
+│   ├── agent_controller.py
+│   └── routing_logic.py
+│
+├── tools/                     # Tool interface / execution code
+│   ├── tool_interface.py
+│   ├── allowlist.json
+│   └── executor.py
+│
+├── loader/                    # Schema loader code
+│   └── schema_loader.py
+│
+├── tasks/                     # Runtime task instances and state
+│   ├── task_queue.json
+│   └── completed_tasks.json
+│
+├── logs/                      # Execution, escalation, and system logs
+│   ├── agent.log
+│   ├── tool.log
+│   └── execution_history.log
+│
+├── policies/                  # Optional: runtime policies, rulesets, constraints
+│   ├── risk_policies.json
+│   └── node_capabilities.json
+│
+└── config/                    # Config files for nodes, environment variables, paths
+    ├── mm2_config.json
+    ├── aurora_config.json
+    └── global_config.json

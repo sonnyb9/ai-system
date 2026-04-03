@@ -1,0 +1,57 @@
+{
+  "SchemaLoaderSpec": {
+    "system": "OpenClaw Local AI Orchestration",
+    "purpose": "Deterministic ingestion of Markdown schema documents into structured, AI-consumable objects",
+    "overview": {
+      "reads_files_from": "/ai-system/schemas/",
+      "parses": ["Markdown sections", "code blocks"],
+      "converts_to": "structured JSON objects",
+      "runtime_access_for": ["Agent Controller", "Tool Interface"]
+    },
+    "goals": ["Determinism", "Validation", "Extensibility"],
+    "directory_placement": {
+      "markdown_schemas": "/ai-system/schemas/",
+      "loader_code": "/ai-system/loader/schema_loader.py",
+      "loader_doc": "/ai-system/docs/schema_loader.md"
+    },
+    "parsing_strategy": {
+      "sections": {
+        "top_level": "#",
+        "nested": ["##", "###"],
+        "code_blocks": ["json", "text"]
+      },
+      "example_task_schema": {
+        "task_id": "string",
+        "category": "maintenance | monitoring"
+      }
+    },
+    "loader_interface_example": {
+      "python_import": "from loader.schema_loader import SchemaLoader",
+      "usage": {
+        "loader": "SchemaLoader('/ai-system/schemas/')",
+        "schemas": "loader.load_all()",
+        "task_schema": "schemas.get('task-classification', {}).get('Task Schema')"
+      }
+    },
+    "validation_layer": {
+      "required_sections": ["Task Schema", "Category Definitions", "Tool Allowlist", "Routing Logic"],
+      "json_block_validation": true,
+      "schema_versioning": "optional"
+    },
+    "security": {
+      "execute_code_blocks": false,
+      "file_access_restricted_to": "/ai-system/schemas/"
+    },
+    "logging_example": {
+      "file": "task-classification.md",
+      "status": "success",
+      "sections_found": ["Task Schema", "Category Definitions"]
+    },
+    "extensibility": {
+      "auto_load_new_schemas": true,
+      "nested_keys_supported": true,
+      "multi_node_support": true
+    },
+    "future_enhancements": ["hot reload", "schema diffing", "automated completeness tests", "optional YAML/JSON export"]
+  }
+}

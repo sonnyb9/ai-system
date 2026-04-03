@@ -1,0 +1,37 @@
+{
+  "agents": {
+    "defaults": {
+      "model": { "primary": "anthropic/claude-sonnet-4-5" },
+      "models": {
+        "anthropic/claude-sonnet-4-5": { "alias": "sonnet" },
+        "anthropic/opus": { "alias": "opus" }
+      },
+      "workspace": "/home/pi/.openclaw/workspace"
+    },
+    "list": [
+      {
+        "id": "main",
+        "tools": { "profile": "coding" }
+      },
+      {
+        "id": "qwen32b",
+        "model": { "primary": "ollama/qwen2.5-coder:32b" },
+        "tools": { "profile": "coding" }
+      }
+    ]
+  },
+
+  "models": {
+    "providers": {
+      "ollama": {
+        "baseUrl": "http://192.168.5.150:11434/v1",
+        "apiKey": "ollama-remote",
+        "api": "openai-responses",
+        "models": [
+          { "id": "qwen2.5-coder:32b", "name": "Qwen2.5 Coder 32B" }
+        ]
+      }
+    }
+  }
+}
+

@@ -1,0 +1,23 @@
+{
+  "schema_metadata": {
+    "name": "agent-controller",
+    "version": "1.0.0",
+    "last_updated": "2026-04-01",
+    "description": "Defines orchestration behavior",
+    "owner": "system",
+    "validation": {
+      "required_top_level_keys": ["AgentController"],
+      "required_fields_by_object": {}
+    }
+  },
+  "data": {
+    "AgentController": {
+      "responsibilities": [
+        "task intake",
+        "routing",
+        "execution",
+        "logging"
+      ]
+    }
+  }
+}

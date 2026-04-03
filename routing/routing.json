@@ -1,0 +1,8 @@
+{
+  "priority_order": [
+    "pi5_lightweight",
+    "aurora_local_deepseek",
+    "claude_sonnet_4_5"
+  ]
+}
+

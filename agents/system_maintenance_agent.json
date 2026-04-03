@@ -1,0 +1,20 @@
+ {
+  "agent_name": "system_maintenance_agent",
+  "description": "Handles cron tasks, system checks, log summaries, and fallback inference.",
+  "providers": [
+    "pi5_lightweight",
+    "aurora_local_deepseek",
+    "claude_sonnet_4_5"
+  ],
+  "tools_allowed": [
+    "system_info",
+    "file_read",
+    "file_write",
+    "log_append"
+  ],
+  "fallback_behavior": {
+    "retry_on_failure": true,
+    "max_retries": 2,
+    "retry_delay_seconds": 5
+  }
+}

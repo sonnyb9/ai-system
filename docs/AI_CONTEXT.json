@@ -1,0 +1,104 @@
+{
+  "project": {
+    "name": "OpenClaw Local AI Orchestration",
+    "goal": "Run local AI agents for system maintenance, monitoring, and task execution with minimal reliance on external models"
+  },
+  "architecture": {
+    "nodes": [
+      {
+        "hostname": "MM2",
+        "role": "gateway",
+        "hardware": "Raspberry Pi 5 (4GB RAM, NVMe, UPS)",
+        "responsibilities": ["always-on agent", "lightweight model execution", "fallback routing"]
+      },
+      {
+        "hostname": "AuroraR16",
+        "role": "compute node",
+        "responsibilities": ["Ollama execution", "higher performance inference"]
+      },
+      {
+        "hostname": "Lenovo LOQ",
+        "role": "node",
+        "responsibilities": ["optional compute"]
+      },
+      {
+        "hostname": "raspberrypi",
+        "role": "node",
+        "responsibilities": ["auxiliary tasks"]
+      }
+    ]
+  },
+  "directory_structure": {
+    "root": "/ai-system/",
+    "schemas": "/ai-system/schemas/",
+    "agents": "/ai-system/agents/",
+    "loader": "/ai-system/loader/",
+    "tools": "/ai-system/tools/",
+    "tasks": "/ai-system/tasks/",
+    "logs": "/ai-system/logs/",
+    "docs": "/ai-system/docs/"
+  },
+  "schemas": {
+    "format": "JSON",
+    "location": "/ai-system/schemas/",
+    "files": [
+      "schema_loader.json",
+      "task-classification.json",
+      "tool-interface.json",
+      "system-architecture.json",
+      "agent-controller.json"
+    ],
+    "standard_structure": {
+      "schema_metadata": {
+        "name": "string",
+        "version": "semantic (e.g. 1.0.0)",
+        "last_updated": "YYYY-MM-DD",
+        "description": "string",
+        "owner": "string",
+        "validation": {
+          "required_top_level_keys": [],
+          "required_fields_by_object": {}
+        }
+      },
+      "data": {}
+    }
+  },
+  "execution_flow": [
+    "Load schemas from /ai-system/schemas/",
+    "Validate schemas using schema_validator.py",
+    "Receive task input",
+    "Classify task using task-classification.json",
+    "Route task based on tools_allowed",
+    "Execute task via appropriate model",
+    "Log results to /ai-system/logs/"
+  ],
+  "routing_strategy": {
+    "priority_order": [
+      "selfhosted-lightweight-model",
+      "ollama",
+      "claude-sonnet-4-5"
+    ],
+    "goal": "Minimize external API usage and token cost"
+  },
+  "current_state": {
+    "schemas_created": true,
+    "validation_enabled": true,
+    "agent_controller_created": true,
+    "execution": "stubbed",
+    "ollama_integration": false,
+    "task_queue": false,
+    "logging": false
+  },
+  "next_steps": [
+    "Integrate Ollama execution (/ai-system/tools/ollama_executor.py)",
+    "Implement task queue (/ai-system/tasks/task_queue.json)",
+    "Add logging system (/ai-system/logs/agent.log)",
+    "Add cron-based task ingestion",
+    "Add failure handling and retry logic"
+  ],
+  "design_preferences": {
+    "format": "JSON over YAML",
+    "paths": "always explicit",
+    "markdown_handling": "avoid fenced markdown in chat, prefer plain text or files"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "SystemArchitecture": {
+    "nodes": [
+      {
+        "hostname": "MM2",
+        "role": "gateway",
+        "ai_models": ["claude-sonnet-4-5", "ollama"]
+      },
+      {
+        "hostname": "AuroraR16",
+        "role": "node",
+        "ai_models": ["ollama"]
+      },
+      {
+        "hostname": "Lenovo LOQ",
+        "role": "node"
+      },
+      {
+        "hostname": "raspberrypi",
+        "role": "node"
+      }
+    ],
+    "primary_objectives": ["housekeeping", "cron tasks", "monitoring"],
+    "ai_routing_strategy": {
+      "low_resource_tasks": "selfhosted-lightweight-model",
+      "high_resource_tasks": "claude-sonnet-4-5 via MM2"
+    },
+    "advantages_pi5": ["always on", "UPS Hat", "external BackUPS"],
+    "considerations_pc": ["always-on config needed", "UPS required", "higher electricity cost"]
+  }
+}

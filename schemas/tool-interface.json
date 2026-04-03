@@ -1,0 +1,25 @@
+{
+  "schema_metadata": {
+    "name": "tool-interface",
+    "version": "1.0.0",
+    "last_updated": "2026-04-01",
+    "description": "Defines available tools and capabilities",
+    "owner": "agent-controller",
+    "validation": {
+      "required_top_level_keys": ["Tools"],
+      "required_fields_by_object": {
+        "Tools": ["tool_id", "type", "capabilities"]
+      }
+    }
+  },
+  "data": {
+    "Tools": [
+      {
+        "tool_id": "ollama",
+        "type": "AI",
+        "capabilities": ["reasoning"],
+        "resource_constraints": "high"
+      }
+    ]
+  }
+}
