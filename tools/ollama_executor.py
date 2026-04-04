@@ -6,35 +6,48 @@ def run_ollama(model, prompt, endpoint):
     """
     Sends a prompt to an Ollama model running on a remote machine
     and returns the generated text response.
+    Handles streaming output correctly.
     """
 
     payload = {
         "model": model,
-        "prompt": prompt
+        "prompt": prompt,
+        "stream": True
     }
 
     try:
         response = requests.post(
             f"{endpoint}/api/generate",
             json=payload,
+            stream=True,
             timeout=120
         )
 
         response.raise_for_status()
-        data = response.json()
 
-        # Ollama returns streaming chunks unless "stream": false is set.
-        # If your model returns chunks, concatenate them here.
-        if isinstance(data, dict) and "response" in data:
-            return data["response"]
+        full_text = ""
 
-        # If streaming mode is enabled, Ollama returns a list of chunks.
-        if isinstance(data, list):
-            return "".join(chunk.get("response", "") for chunk in data)
+        # Ollama streams JSON objects line-by-line
+        for line in response.iter_lines():
+            if not line:
+                continue
 
-        # Unexpected response format
-        log(f"Unexpected Ollama response format for model {model}: {type(data)}")
-        return ""
+            try:
+                chunk = json.loads(line.decode("utf-8"))
+            except json.JSONDecodeError:
+                # If Ollama ever emits raw text, append it safely
+                full_text += line.decode("utf-8")
+                continue
+
+            # Append any text in the "response" field
+            if "response" in chunk:
+                full_text += chunk["response"]
+
+            # Stop when Ollama signals completion
+            if chunk.get("done"):
+                break
+
+        return full_text.strip()
 
     except requests.RequestException as e:
         log(f"Ollama request failed for model {model}: {e}")
@@ -42,4 +55,8 @@ def run_ollama(model, prompt, endpoint):
     except json.JSONDecodeError as e:
         log(f"Failed to parse Ollama response for model {model}: {e}")
         return ""
+    except Exception as e:
+        log(f"Unexpected error in Ollama call for model {model}: {e}")
+        return ""
 
+    return full_text.strip()

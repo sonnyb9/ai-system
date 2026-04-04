@@ -10,4 +10,3 @@ def log(message):
     except Exception as e:
         # Fallback to print if logging fails
         print(f"LOG ERROR: {e} - {message}")
-

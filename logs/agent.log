@@ -1,1 +1,10 @@
- 
+Trying provider: aurora_local_deepseek
+Provider aurora_local_deepseek failed: Extra data: line 2 column 1 (char 111)
+All providers failed
+Task failed, keeping in queue
+Trying provider: aurora_local_deepseek
+Provider aurora_local_deepseek succeeded
+Task completed: Hello! It seems like you're referring to a specific test run or deployment of Ra
+Trying provider: aurora_local_deepseek
+Provider aurora_local_deepseek succeeded
+Task completed: SUCCESS
