@@ -7,7 +7,7 @@
 │
 ├── docs/                      # System specifications, design docs, explanations
 │   ├── schema_loader.md       # Loader specification (parsing/loading logic)
-│   ├── agent_design.md        # Optional higher-level design notes
+│   ├── agent_design.md        # Agent runtime, tool interface, and provider design
 │   └── system_notes.md        # Operational or design notes
 │
 ├── agents/                    # Agent logic / orchestrator code
@@ -17,7 +17,11 @@
 ├── tools/                     # Tool interface / execution code
 │   ├── tool_interface.py
 │   ├── allowlist.json
-│   └── executor.py
+│   ├── executor.py
+│   ├── file_read.py
+│   ├── file_write.py
+│   ├── provider_tool.py
+│   └── system_info.py
 │
 ├── loader/                    # Schema loader code
 │   └── schema_loader.py

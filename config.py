@@ -30,5 +30,15 @@ def ensure_directories():
     for dir_path in directories:
         dir_path.mkdir(parents=True, exist_ok=True)
 
+# Runtime configuration defaults
+MODEL = os.getenv("AI_SYSTEM_MODEL", "llama3.3")
+OLLAMA_URL = os.getenv("AI_SYSTEM_OLLAMA_URL", "http://localhost:11434")
+TEMPERATURE = float(os.getenv("AI_SYSTEM_TEMPERATURE", "0.7"))
+TIMEOUT = int(os.getenv("AI_SYSTEM_TIMEOUT", "60"))
+MAX_TURNS = int(os.getenv("AI_SYSTEM_MAX_TURNS", "10"))
+CONTEXT_WINDOW = int(os.getenv("AI_SYSTEM_CONTEXT_WINDOW", "20"))
+TOKEN_BUDGET = int(os.getenv("AI_SYSTEM_TOKEN_BUDGET", "8000"))
+SAFE_DIR = os.getenv("AI_SYSTEM_SAFE_DIR")
+
 # Call on import
 ensure_directories()

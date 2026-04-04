@@ -1,5 +1,5 @@
 import json
-from controller.agent_controller import AgentController
+from controller.runtime import AgentRuntime
 from tools.logger import log
 from config import TASK_QUEUE
 
@@ -19,7 +19,7 @@ def save_queue(tasks):
         log(f"Error saving task queue: {e}")
 
 def main():
-    controller = AgentController(str(TASK_QUEUE.parent.parent))  # Pass base dir
+    runtime = AgentRuntime(str(TASK_QUEUE.parent.parent))
 
     tasks = load_queue()
     if not tasks:
@@ -29,7 +29,7 @@ def main():
     remaining = []
 
     for task in tasks:
-        task_result = controller.run_task(task)
+        task_result = runtime.run_task(task)
         if task_result["success"]:
             log(f"Task completed: {task_result['result'][:80]}")
         else:
