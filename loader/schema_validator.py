@@ -61,7 +61,8 @@ class SchemaValidator:
 
 
 if __name__ == "__main__":
-    validator = SchemaValidator("/ai-system/schemas/")
+    from config import SCHEMAS_DIR
+    validator = SchemaValidator(str(SCHEMAS_DIR))
     results = validator.validate_all()
 
     for file, result in results.items():

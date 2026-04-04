@@ -63,7 +63,8 @@ class SchemaLoader:
 
 # Example usage
 if __name__ == "__main__":
-    loader = SchemaLoader("/ai-system/schemas/")
+    from config import SCHEMAS_DIR
+    loader = SchemaLoader(str(SCHEMAS_DIR))
     all_schemas = loader.load_all()
 
     # Example: access Task Classification schema
