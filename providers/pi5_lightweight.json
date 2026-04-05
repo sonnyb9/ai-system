@@ -1,0 +1,14 @@
+{
+  "provider_name": "pi5_lightweight",
+  "type": "ollama",
+  "endpoint": "http://localhost:11434",
+  "model": "llama3.1:8b",
+  "capabilities": {
+    "text": true,
+    "tools": true,
+    "vision": false,
+    "web_search": false
+  },
+  "timeout_seconds": 120,
+  "max_tokens": 8192
+}

@@ -1,0 +1,15 @@
+{
+  "provider_name": "claude_sonnet_4_5",
+  "type": "api",
+  "endpoint": "https://api.anthropic.com/v1",
+  "api_key_env": "ANTHROPIC_API_KEY",
+  "model": "claude-3-5-sonnet-20241022",
+  "capabilities": {
+    "text": true,
+    "tools": true,
+    "vision": true,
+    "web_search": true
+  },
+  "timeout_seconds": 240,
+  "max_tokens": 128000
+}
