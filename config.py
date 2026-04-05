@@ -31,7 +31,9 @@ def ensure_directories():
         dir_path.mkdir(parents=True, exist_ok=True)
 
 # Runtime configuration defaults
-MODEL = os.getenv("AI_SYSTEM_MODEL", "llama3.3")
+# Default to tinyllama for low-memory systems, override with AI_SYSTEM_MODEL env var
+# For tool calling, use llama3.1:8b or newer (requires ~4GB RAM)
+MODEL = os.getenv("AI_SYSTEM_MODEL", "tinyllama:latest")
 OLLAMA_URL = os.getenv("AI_SYSTEM_OLLAMA_URL", "http://localhost:11434")
 TEMPERATURE = float(os.getenv("AI_SYSTEM_TEMPERATURE", "0.7"))
 TIMEOUT = int(os.getenv("AI_SYSTEM_TIMEOUT", "60"))
