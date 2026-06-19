@@ -1,3 +1,8 @@
+# AI System Directory Structure
+
+Reference layout for the project tree:
+
+```text
 /ai-system/
 ├── schemas/                   # All machine-consumable schema JSON files
 │   ├── task-classification.json
@@ -43,3 +48,9 @@
     ├── mm2_config.json
     ├── aurora_config.json
     └── global_config.json
+```
+
+Notes:
+- `docs/` holds human-readable design and operating documentation.
+- `schemas/`, `policies/`, and `config/` hold machine-consumable inputs.
+- `tasks/` and `logs/` represent runtime state and should usually be treated differently from source-controlled design docs.
